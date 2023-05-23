@@ -1,0 +1,2 @@
+# Front-End-Development-Using-JavaScript-Cookie-Ajax-jQuery-jQuery-UI
+This assignment is an extension of Student Survey Form of the previous Assignment and requires you to enhance the page using JavaScript functionality. You will have an opportunity to demonstrate how to use cookie, JavaScript functions, event handling, jQuery, and Ajax implementation. The following are specific details of the assignment. 
