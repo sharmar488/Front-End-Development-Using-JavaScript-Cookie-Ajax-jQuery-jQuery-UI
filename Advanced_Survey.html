@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+
+	<title>
+		Student Survey Form using HTML, CSS, JavaScript, Cookie, Ajax, & jQuery/jQuery UI
+	</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--<script src="https://code.jquery.com/jquery-1.13.2.js"></script>-->
+	<link rel="stylesheet" type="text/css" href="https://mason.gmu.edu//~rsharm8//survey_style_sheet_for_HW2.css" />
+	<script src="https://mason.gmu.edu//~rsharm8//jquery-3.6.1.js"></script>
+
+	<script type="text/javascript" src="https://mason.gmu.edu//~rsharm8//HW2.js"></script>
+
+
+
+</head>
+
+<body>
+	<!--	<h1 class="heading">Student Survey Form</h1>-->
+	<div class="w3-container w3-green">
+		<h2>Student Survey Form</h2>
+	</div>
+	<div class="w3-row w3-yellow">
+		<h3></h3>
+	</div>
+
+	<script type="text/javascript">
+		var now = new Date();
+		var hour = now.getHours();
+		var name;
+
+		if (hour < 12)
+			document.write("<h1>Good Morning ");
+		else {
+			hour = hour - 12;
+			if (hour < 6)
+				document.write("<h1>Good Afternoon ");
+			else
+				document.write("<h1>Good Evening ");
+		}
+
+		if (document.cookie) {
+			var myCookie = unescape(document.cookie);
+			var cookieTokens = myCookie.split("=");
+			name = cookieTokens[1];
+		} else {
+			name = window.prompt("Please enter your name:");
+			document.cookie = "name=" + escape(name);
+		}
+		document.writeln(name + ", Welcome to SWE642 Survey</h1>");
+		//<p><a href="javascript:wrongperson()">"click here if you are not" + name </a></p>
+		document.writeln("<a href = 'javascript:wrongperson()'>" + "click here if you are not " + name + "</a>");
+
+		function wrongperson() {
+			document.cookie="name=null;expires=Wed, 05 Aug 2020 23:00:00 UTC";
+			location.reload();
+		}
+
+		function compute() {
+			var userInput = datafield.value
+			var array = userInput.split(",");
+			var parsedArray = array.map(function(v) {
+				return parseInt(v);
+			});
+
+			if (parsedArray.length < 10 || Math.max(...parsedArray) > 100 || Math.min(...parsedArray) < 1) {
+				document.getElementById("dataFieldError").innerHTML = "Enter ten values separated by commas between 1 through 100";
+			} else {
+				document.getElementById("max").innerHTML = "Maximum: " + Math.max(...parsedArray);
+
+				var sum = 0;
+				for (var i = 0; i < parsedArray.length; i++) {
+					sum += parsedArray[i];
+				}
+				var avg = sum / parsedArray.length;
+
+				document.getElementById("avg").innerHTML = "Average: " + avg;
+				document.getElementById("dataFieldError").innerHTML = "";
+
+			}
+		}
+		//zip code
+		var request;
+		function zipCode() {
+			try {
+				var jsonURL = 'https://mason.gmu.edu//~rsharm8//zipcode.json';
+				request = new XMLHttpRequest();
+				request.onreadystatechange = validate_zip;
+				request.open("GET", jsonURL, true);
+				request.send(null);
+			} catch (exception) {
+				alert('Request Failed');
+			}
+		}
+
+		function validate_zip() {
+			if (request.readyState == 4 && request.status == 200) {
+				document.getElementById('zip_error_msg').innerHTML = "Checking zip...";
+				var data = JSON.parse(request.responseText);
+				var zipcode=data.zipcodes;
+				var zips = document.getElementById("zip_code").value;
+				//document.writeln(zips);
+
+
+				var zipValid = 0;
+				for (var i = 0; i < zipcode.length; i++) {
+					if (zips == zipcode[i].zip) {
+						zipValid = 1;
+						document.getElementById("city_error_msg").innerHTML = zipcode[i].city;
+						document.getElementById("state_error_msg").innerHTML = zipcode[i].state;
+						document.getElementById("zip_error_msg").innerHTML = "";
+					}
+				}
+
+				if (zipValid != 1) {
+					document.getElementById("city_error_msg").innerHTML = "";
+					document.getElementById("state_error_msg").innerHTML = "";
+					document.getElementById("zip_error_msg").innerHTML = 'Zip is invalid. Enter a valid zipcode ';
+				}
+			} else {
+				document.getElementById("zip_error_msg").innerHTML = 'request unable to validate';
+			}
+		}
+	</script>
+
+	<!-- Create Form -->
+	<form id="form">
+
+		<!-- Details -->
+		<div class="form-control">
+			<label for="name" id="label-name">
+				UserName *
+			</label>
+
+			<!-- Input Type Text -->
+			<input type="text" required autofocus name="name" id="name" placeholder="Enter your UserName" />
+			<span class="error_form" id="username_error_msg"></span>
+		</div>
+
+
+
+
+		<div class="form-control">
+			<label for="street_address" id="label-street_address">
+				Street Address *
+			</label>
+
+			<!-- Input Type Text -->
+			<input type="text" required id="street_address" placeholder="Street Address" />
+			<span class="error_form" id="address_error_msg"></span>
+		</div>
+
+
+
+		<div class="form-control">
+			<label for="city" id="label-city">
+				City *
+			</label>
+
+			<!-- Input Type Text -->
+			<div id='city'>
+			<p class="output" id="city_error_msg"></p></div>
+		</div>
+
+
+		<div class="form-control">
+			<label for="state" id="label-state">
+				State *
+			</label>
+
+			<!-- Input Type Text -->
+			<div id="state">
+			<p class="output" id="state_error_msg"></p></div>
+		</div>
+
+
+
+		<div class="form-control">
+			<label for="zip_code" id="label-zip_code">
+				Zipcode *
+			</label>
+
+			<!-- Input Type Text -->
+			<input type="text" required id="zip_code" onblur="zipCode()" placeholder="Enter Zipcode" />
+			<p class="error_form" id="zip_error_msg"></p>
+		</div>
+
+
+		<div class="form-control">
+			<label for="mob_no" id="label-mob_no">
+				Mobile Number *
+			</label>
+
+			<!-- Input Type Text -->
+			<input type="text" required id="mob_no" placeholder="Enter Mobile Number" />
+			<span class="error_form" id="mobile_error_msg"></span>
+		</div>
+
+
+		<div class="form-control">
+			<label for="email" id="label-email">
+				Email *
+			</label>
+
+			<!-- Input Type Email-->
+			<input type="email" required id="email" placeholder="Enter your email" />
+			<span class="error_form" id="email_error_msg"></span>
+		</div>
+
+		<div class="form-control">
+			<label for="url" id="label-url">
+				URL *
+			</label>
+
+			<!-- Input Type Email-->
+			<input type="url" required id="url" placeholder="Enter your url" />
+			<span class="error_form" id="url_error_msg"></span>
+		</div>
+
+
+		<div class="form-control">
+			<label for="date" id="label-date">
+				Date of Survey *
+			</label>
+
+			<!-- Input Type Text -->
+			<input type="text" required id="date" placeholder="mm/dd/yyyy" />
+			<span class="error_form" id="date_error_msg"></span>
+		</div>
+
+
+
+		<div id="check" class="form-control">
+			<label>
+				What do you like most about the campus?
+			</label>
+			<!-- Input Type Checkbox -->
+			<label for="inp-1">
+				<input type="checkbox" id="inp-1" name="inp">Students</input></label>
+			<label for="inp-2">
+				<input type="checkbox" id="inp-2" name="inp">Location</input></label>
+			<label for="inp-3">
+				<input type="checkbox" id="inp-3" name="inp">Campus</input></label>
+			<label for="inp-4">
+				<input type="checkbox" id="inp-4" name="inp">Atmosphere</input></label>
+			<label for="inp-5">
+				<input type="checkbox" id="inp-5" name="inp">Dorm Rooms</input></label>
+			<label for="inp-6">
+				<input type="checkbox" id="inp-6" name="inp">Sports</input></label>
+			<span class="error_form" id="checkbox_error_msg"></span>
+
+		</div>
+
+
+
+
+
+		<div id="label" class="form-control">
+			<label>
+				How you became interested in the university?
+
+			</label>
+
+			<!-- Input Type Radio Button -->
+			<label for="recommend-1">
+				<input type="radio" id="recommend-1" name="recommend">Friends</input>
+			</label>
+			<label for="recommend-2">
+				<input type="radio" id="recommend-2" name="recommend">Television</input>
+			</label>
+			<label for="recommend-3">
+				<input type="radio" id="recommend-3" name="recommend">Internet</input>
+			</label>
+			<label for="recommend-4">
+				<input type="radio" id="recommend-4" name="recommend">Others</input>
+			</label>
+
+			<span class="error_form" id="radio_error_msg"></span>
+		</div>
+
+
+
+
+
+		<div class="form-control">
+			<label>
+				Do you recommend this university to other students?
+			</label>
+			<!-- Dropdown options -->
+			<select name="role" id="role">
+				<option value="" disabled selected>Please Select</option>
+				<option value="vl">Very Likely</option>
+				<option value="l">Likely</option>
+				<option value="u">Unlikely</option>
+
+			</select>
+			<span class="error_form" id="list_error_msg"></span>
+		</div>
+
+
+
+
+
+		<div class="form-control">
+			<label for="" class="col-form-label control-label-inline">Enter Graduation Month:</label>
+			<div class="col-sm-12">
+				<input type="text" class="form-control row" id="month" name="" value="" placeholder="Enter Graduation Month" list="Month">
+				<span class="error_form" id="month_error_msg"></span>
+			</div>
+		</div>
+		<div class="form-control">
+			<label for="" class="col-sm-2 col-form-label control-label-inline">Enter the Year:</label>
+			<div class="col-sm-6">
+				<input type="number" class="form-control row" id="year" name="" value="" placeholder="Enter the Year">
+				<span class="error_form" id="year_error_msg"></span>
+			</div>
+		</div>
+
+		<datalist id="Month">
+			<option value="January"></option>
+			<option value="February"></option>
+			<option value="March"></option>
+			<option value="April"></option>
+			<option value="May"></option>
+			<option value="June"></option>
+			<option value="July"></option>
+			<option value="August"></option>
+			<option value="September"></option>
+			<option value="October"></option>
+			<option value="November"></option>
+			<option value="December"></option>
+		</datalist>
+
+		<div class="form-control">
+			<label for="comment">
+				Additional Comments
+			</label>
+			<!-- multi-line text input control -->
+			<textarea name="comment" id="comment" placeholder="Enter your comment here">
+			</textarea>
+		</div>
+		<div>
+			<label for="datafield">Enter 10 comma separated number ranging from 1 through 100.</label>
+			<input type="text" name=datafield id=datafield onfocusout="compute()"><br>
+			<p id="dataFieldError"></p>
+			<div id="avg">Average:</div>
+			<div id="max">Maximum:</div>
+		</div>
+
+
+		<!-- Multi-line Text Input Control -->
+		<button type="submit" value="Submit" id="sub">Submit</button>
+		<button type="reset" value="Reset" id="res">Reset</button>
+
+
+
+	</form>
+
+	</script>
+</body>
+
+</html>
