@@ -45,6 +45,25 @@
 
 <body class="w3-black">
 
+  <script type="text/javascript">
+    function errormsg(){
+      //document.writeln("Sending message function is not operational yet.")
+      alert("Sending message function is not operational yet.")
+    }
+    function downloadFile() {
+  // Create a dummy link element
+  var link = document.createElement('a');
+  
+  // Set the file URL as the href attribute
+  link.href = 'https://github.com/sharmar488/sharmar488/raw/main/Resume.pdf'; // Replace with the actual file URL
+  
+  // Set the desired filename for the downloaded file
+  link.download = 'Resume.pdf'; // Replace with the desired filename
+  
+  // Programmatically click the link to trigger the download
+  link.click();
+}
+  </script>
   <!-- Icon Bar (Sidebar - hidden on small screens) -->
   <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
     <!-- Avatar image in top left corner -->
@@ -106,6 +125,12 @@
       <p class="w3-wide">Software Development</p>
       <p class="w3-wide">Data Mining</p>
       <p class="w3-wide">Data visualization</p>
+      <p class="w3-wide">Spring</p>
+      <p class="w3-wide">Spring-Boot</p>
+      <p class="w3-wide">AWS</p>
+      <p class="w3-wide">Jenkins</p>
+      <p class="w3-wide">CI/CD</p>
+      <p class="w3-wide">Front-end</p>
       <br>
       <h3 class="w3-padding-16 w3-text-light-grey">Companies</h3>
       <div class="w3-row w3-center w3-padding-16 w3-section w3-light-grey">
@@ -119,7 +144,7 @@
         </div>
       </div>
 
-      <button class="w3-button w3-light-grey w3-padding-large w3-section">
+      <button class="w3-button w3-light-grey w3-padding-large w3-section" onclick="downloadFile()">
         <i class="fa fa-download"></i> Download Resume
       </button>
     </div>
@@ -164,7 +189,7 @@
       <p><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="Subject"></p>
       <p><input class="w3-input w3-padding-16" type="text" placeholder="Message" required name="Message"></p>
       <p>
-        <button class="w3-button w3-light-grey w3-padding-large" type="submit">
+        <button class="w3-button w3-light-grey w3-padding-large" onclick='errormsg()' type="submit">
           <i class="fa fa-paper-plane"></i> SEND MESSAGE
         </button>
       </p>
