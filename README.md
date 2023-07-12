@@ -23,7 +23,7 @@ This assignment is an extension of Student Survey Form of the previous Assignmen
     "Ashburn",
      "state"= "VA"
      }. 
-### When the Ajax call has completed successfully, invoke a callback function that parses the returned JSON file using either JavaScript’s eval function or the JSON parser. Both can be used to convert the returned JSON file into a JavaScript object and then retrieve city and state values for a zipcode. The JSON files have .json extension and is stored on the server in the same folder as your application (e.g., HTML files). (Please refer to sections of Deitel book for further discussion on using JSON. You can also visit Deitel’s json resource center at www.deitel.com/json). The following is a sample JSON file that could be used to implement the homework. You will need to save this information in a file with .json extension and store it on the server.
+### When the Ajax call has completed successfully, invoke a callback function that parses the returned JSON file using either JavaScript’s eval function or the JSON parser. Both can be used to convert the returned JSON file into a JavaScript object and then retrieve city and state values for a zipcode. The JSON files have .json extension and is stored on the server in the same folder as your application (e.g., HTML files).The following is a sample JSON file that could be used to implement the homework. You will need to save this information in a file with .json extension and store it on the server.
  {
  "zipcodes":[
  {
